@@ -2,7 +2,7 @@ from typing_extensions import TypedDict, Annotated
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
 from node.tool.fetch_html import fetch_html_tool
-from node.tool.vision_parser import vision_parser_tool
+from node.tool.parse_image_text import parse_image_text
 from node.tool.web_search import web_search_tool
 
 from node.route_question import route_question
@@ -37,7 +37,7 @@ workflow = StateGraph(GraphState)
 
 # 노드 정의
 workflow.add_node("fetch_html_tool", fetch_html_tool)  # HTML 문서 가져오기
-workflow.add_node("vision_parser_tool", vision_parser_tool)
+workflow.add_node("parse_image_text", parse_image_text)
 workflow.add_node("web_search_tool", web_search_tool)  # 웹 서칭
 
 workflow.add_node("clean_html", html_clean)  # HTML 문서 정리
@@ -56,14 +56,14 @@ workflow.add_conditional_edges(
     START,
     route_question,
     {
-        "fetch_html_tool": "fetch_html_tool",
-        "vision_parser_tool": "fetch_html_tool",  # vision_parser_tool 미구현
+        "fetch_html_tool": "parse_image_text",
+        "parse_image_text": "parse_image_text",  # parse_image_text 미구현
     },
 )
 
 workflow.add_edge("fetch_html_tool", "clean_html")
 workflow.add_edge("clean_html", "rag_retrieve")
-workflow.add_edge("vision_parser_tool", "rag_retrieve")
+workflow.add_edge("parse_image_text", "rag_retrieve")
 
 workflow.add_edge("rag_retrieve", "product_annc_parser")
 

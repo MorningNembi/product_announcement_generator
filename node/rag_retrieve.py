@@ -1,6 +1,7 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_core.documents import Document
 from typing import Dict
 from config import node_log, RAG_Query
 
@@ -14,8 +15,8 @@ def rag_retrieve(state: Dict) -> Dict:
     • retrieved_docs = retriever.invoke(query)
     • state['documents'] = retrieved_docs
     """
-    docs = state["html"]
-
+    text = state["html"]
+    docs = [Document(page_content=text, metadata={"source": state["url"]})]
     # 처음 호출이거나 retriever가 없으면 인덱스부터 생성
     if "retriever_query" not in state or "retriever" not in state:
         node_log("RETRIEVE")

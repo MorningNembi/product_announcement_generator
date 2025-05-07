@@ -31,8 +31,8 @@ def web_search_tool(state: Dict) -> Dict:
     # 검색 도구 생성
     tavily_tool = TavilySearch()
     parser = state["generation"]
-    query = parser["product_name"]
-    search_query = f"{query}"
+    query = parser["product_lower_name"]
+    search_query = f"{query} 리뷰"
     state["web_search_query"] = search_query
     # 다양한 파라미터를 사용한 검색 예제
     search_result = tavily_tool.search(

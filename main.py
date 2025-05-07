@@ -2,7 +2,7 @@ from config import RECURSION_LIMIT
 from langchain_core.runnables import RunnableConfig
 from langchain_teddynote.messages import random_uuid
 from graph import app
-from graph_output import invoke_graph
+from graph_output import invoke_graph, invoke_graph_clean
 
 
 def main(inputs: dict):
@@ -15,7 +15,8 @@ def main(inputs: dict):
         recursion_limit=RECURSION_LIMIT, configurable={"thread_id": random_uuid()}
     )
     # 2) 그래프 실행
-    invoke_graph(app, inputs, config, node_names=["product_desc_gen"])
+    # invoke_graph(app, inputs, config, node_names=["product_desc_gen"])
+    invoke_graph_clean(app, inputs, config, node_names=["product_desc_gen"])
 
 
 # 아래 코드는 스크립트로 직접 실행할 때, 기본 URL을 넣어주는 예시입니다.
@@ -23,7 +24,9 @@ if __name__ == "__main__":
     # 디폴트 테스트 URL 혹은 JSON 파싱 등을 여기에 넣어두셔도 되고
     test_inputs = {
         # "url": "https://www.myprotein.co.kr/p/sports-nutrition/essential-omega-3/10529329/",
-        "url": "https://www.11st.co.kr/products/5351424764",
+        # "url": "https://www.11st.co.kr/products/5351424764",
         # "url": "https://www.coupang.com/vp/products/8426618994?vendorItemId=85588196697&sourceType=HOME_PERSONALIZED_ADS&searchId=feed-bee41ae7dc6246a3a2d87116f2d683a0-personalized_ads&clickEventId=117be320-20d5-11f0-9ac6-081d5860c7f0&isAddedCart=",
+        "url": "https://www.coupang.com/vp/products/8386250850?vendorItemId=90475442549&sourceType=HOME_PERSONALIZED_ADS&searchId=feed-8172ec1fe4b74be8bf39e99abb716ed2-personalized_ads&clickEventId=6ef7bf40-2a91-11f0-a1e3-e41ffcb2f197&isAddedCart="
+        # "url": "https://www.345.com"
     }
     main(test_inputs)

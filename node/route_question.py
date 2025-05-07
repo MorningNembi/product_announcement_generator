@@ -10,9 +10,9 @@ from config import ROUTER_PROMPT, node_log
 
 # Pydantic 데이터모델
 class RouteQuery(BaseModel):
-    datasource: Literal[
-        "fetch_html_tool", "coopang_html_tool", "vision_model_parser"
-    ] = Field(..., description="어떤 도구로 라우팅할지 선택합니다.")
+    datasource: Literal["fetch_html_tool", "parse_image_text"] = Field(
+        ..., description="어떤 도구로 라우팅할지 선택합니다."
+    )
 
 
 # LLM 클라이언트
@@ -30,7 +30,7 @@ def route_question(state: Dict) -> str:
         + state["url"]
         + "\n\n"
         + "== 응답 형식 (JSON) ==\n"
-        + '{"datasource": "<fetch_html_tool|coopang_html_tool|vision_model_parser>"}'
+        + '{"datasource": "<fetch_html_tool|parse_image_text>"}'
     )
 
     # 2) LLM 호출 → raw JSON string or free text
@@ -44,9 +44,7 @@ def route_question(state: Dict) -> str:
         # 파싱 실패하면 간단 룰베이스로 fallback
         url = state["url"]
         if "coupang.com" in url:
-            ds = "coopang_html_tool"
-        elif url.lower().endswith((".jpg", ".png", ".jpeg", ".gif")):
-            ds = "vision_model_parser"
+            ds = "parse_image_text"
         else:
             ds = "fetch_html_tool"
 

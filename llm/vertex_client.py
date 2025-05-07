@@ -1,26 +1,41 @@
-# llm/vertex_client.py
 from typing import Any, Dict
-from google.cloud import aiplatform
+import vertexai
+from vertexai.generative_models import GenerativeModel, GenerationConfig
 from llm.client import LLMClient
 from config import GCP_PROJECT, GCP_LOCATION
 
 
 class VertexClient(LLMClient):
-    def __init__(self, model_name: str):
-        # 1) 프로젝트와 리전 명시
-        aiplatform.init(
+    def __init__(self, model_name: str, temperature: float = 0):
+        # 1) 프로젝트 및 리전 초기화
+        vertexai.init(
             project=GCP_PROJECT,
             location=GCP_LOCATION,
         )
-        # 2) ChatModel 로딩 (모델 이름은 "chat-bison@001" 같은 형식)
-        self.chat_model = aiplatform.ChatModel.get_model(model_name)
+        # 2) GenerativeModel 로딩
+        self.model = GenerativeModel(model_name)
+        # 3) temperature 저장 (send_message 호출 시 사용)
+        self.temperature = temperature
+        # 4) 채팅 세션 생성 (기본 옵션)
+        self.chat_session = self.model.start_chat()
 
     def chat(self, prompt: str, **kwargs) -> str:
-        # prompt 키워드 인자가 바뀌었을 수 있으니, SDK 문서 확인
-        response = self.chat_model.predict(prompt=prompt)
+        """
+        단일 프롬프트에 대해 응답 텍스트를 반환합니다.
+        """
+        # GenerationConfig 생성
+        gen_config = GenerationConfig(temperature=self.temperature)
+        # send_message 에 generation_config 전달
+        response = self.chat_session.send_message(
+            prompt, generation_config=gen_config, **kwargs
+        )
         return response.text
 
     def chat_structured(self, prompt_template, inputs: Dict[str, Any] = None):
+        """
+        프롬프트 템플릿과 입력을 받아 형식화된 chat 함수를 반환합니다.
+        """
+
         def _run(inp: Dict[str, Any]) -> str:
             text_prompt = prompt_template.format(**inp)
             return self.chat(text_prompt)

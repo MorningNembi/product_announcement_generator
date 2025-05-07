@@ -11,7 +11,14 @@ prompt_template = PromptTemplate.from_template(PRODUCT_ANNC_PARCER_PROMPT)
 
 
 class Topic(BaseModel):
-    product_name: str = Field(description="메인 상품의 상품명")
+    product_name: str = Field(
+        description="메인 상품의 상세한 상품명(정식 상품명). 무게와 개수가 포함되어있다면 그대로 포함합니다. 부자연스러운 단어들은 자연스럽게 바꿔 작성합니다.",
+        example="스윗마토 방울토마토(500g x 2팩)",
+    )
+    product_lower_name: str = Field(
+        description="메인 상품의 간단한 명칭(무게와 개수가 포함되지 않고, 대중적으로 불리는 이름).",
+        example="방울토마토",
+    )
     total_price: int = Field(description="메인 상품의 가격")
     count: int = Field(description="메인 상품의 개수(개수 단위가 붙은 숫자)")
 

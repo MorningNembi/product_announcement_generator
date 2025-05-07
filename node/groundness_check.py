@@ -26,7 +26,10 @@ def _grade(state: Dict, docs_key: str) -> str:
         f"<document><content>{doc.page_content}</content><source>{doc.metadata['source']}</source></document>"
         for doc in docs
     )
-    gen = state.get("generation", "")
+    if docs_key == "web_search":
+        gen = state.get("generation", "")["summary"]
+    else:
+        gen = state.get("generation", "")
 
     # 2) prompt 생성
     prompt = (

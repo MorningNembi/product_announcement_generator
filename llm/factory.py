@@ -9,17 +9,20 @@ from config import (
     MODEL_NAME_REWRITER,
 )
 from llm.client import LLMClient
-from llm.openai_client import OpenAIClient
-from llm.ollama_client import OllamaClient
-from llm.vertex_client import VertexClient
 
 
 def _get_client(provider: str, model_name: str, temperature=0) -> LLMClient:
+    from llm.openai_client import OpenAIClient
+
     if provider == "openai":
         return OpenAIClient(model_name=model_name, temperature=temperature)
     if provider == "ollama":
+        from llm.ollama_client import OllamaClient
+
         return OllamaClient(model_name=model_name)
-    if provider == "vertex":
+    if provider == "vertexai":
+        from llm.vertex_client import VertexClient
+
         return VertexClient(model_name=model_name, temperature=temperature)
     raise ValueError(f"Unknown LLM provider: {provider}")
 

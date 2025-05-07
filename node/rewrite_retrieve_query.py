@@ -25,7 +25,10 @@ def transform_retrieve_query(state: Dict) -> Dict:
     """
     node_log("TRANSFORM QUERY")
     better_query: str = question_rewriter.invoke(
-        {"retriever_query": state["retriever_query"]}
+        {
+            "retriever_query": state["retriever_query"],
+            "generation": state["generation"],
+        }
     )
     state["retriever_query"] = better_query
     return state
@@ -37,10 +40,10 @@ def transform_web_search_query(state: Dict) -> Dict:
     """
     node_log("TRANSFORM QUERY")
     # 예: "망고향 스테비아 방울토마토 스윗마토 가격 리뷰"
-    product_name = state["generation"]["product_name"]
+    product_name = state["generation"]["product_lower_name"]
 
     # 리뷰만 붙여도 검색결과가 많이 달라짐
-    better_query = f"{product_name} 리뷰"
+    better_query = f"{product_name} 내돈내산"
 
     state["web_search_query"] = better_query
     return state
