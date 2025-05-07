@@ -1,6 +1,8 @@
 # 14-YG-AI
 
 ### 사용 방법
+> 0. 우리가 준 .env 랑 api key.json을 로컬 디렉토리에 둔다
+
 > 1. python3 -m venv .venv
 
 > 2. source .venv/bin/activate
@@ -13,7 +15,6 @@
 
 
 ### API 명세
-## 상품 상세 설명 생성
 
 - **Method:** `POST`
 - **Endpoint:** `/generation/description`
