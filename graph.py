@@ -56,7 +56,7 @@ workflow.add_conditional_edges(
     START,
     route_question,
     {
-        "fetch_html_tool": "parse_image_text",
+        "fetch_html_tool": "fetch_html_tool",
         "parse_image_text": "parse_image_text",  # parse_image_text 미구현
     },
 )

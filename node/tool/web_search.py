@@ -24,25 +24,22 @@ def parse_search_dict(rec: dict) -> Document:
 
 
 def web_search_tool(state: Dict) -> Dict:
-    """
-    ocr을 통해 추출한 상품명을 바탕으로 상품에 대한 정보를 서칭하는 도구
-    """
     node_log("WEB SEARCH")
-    # 검색 도구 생성
-    tavily_tool = TavilySearch()
-    parser = state["generation"]
-    query = parser["product_lower_name"]
-    search_query = f"{query} 리뷰"
-    state["web_search_query"] = search_query
-    # 다양한 파라미터를 사용한 검색 예제
-    search_result = tavily_tool.search(
-        query=search_query,  # 검색 쿼리
-        max_results=3,  # 최대 검색 결과
-        format_output=False,  # 결과 포맷팅
-    )
-    # 변환 수행
-    state["web_search"] = [parse_search_dict(rec) for rec in search_result]
+    # 1) 블로그 도메인만 포함하도록 TavilySearch 인스턴스 생성
+    blog_domains = ["blog.naver.com", "blog.daum.net", "tistory.com"]
+    tavily_tool = TavilySearch(include_domains=blog_domains, max_results=3)
 
+    query = state["generation"]["product_lower_name"]
+    search_query = f"{query} 장점"
+    state["web_search_query"] = search_query
+
+    # 2) 도메인 필터링 옵션을 기본으로 사용
+    search_result = tavily_tool.search(
+        query=search_query,
+        format_output=False,
+    )
+
+    state["web_search"] = [parse_search_dict(rec) for rec in search_result]
     return state
 
 

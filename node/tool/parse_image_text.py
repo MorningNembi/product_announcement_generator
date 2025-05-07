@@ -101,6 +101,8 @@ def parse_image_text(state: Dict) -> Dict:
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
     opts.add_experimental_option("mobileEmulation", MOBILE_EMULATION)
+    opts.add_argument("--ignore-certificate-errors")
+    opts.set_capability("acceptInsecureCerts", True)
 
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=opts)
@@ -134,8 +136,9 @@ def parse_image_text(state: Dict) -> Dict:
         try:
             alert = driver.switch_to.alert
             alert.dismiss()
-        except Exception:
+        except Exception as e:
             pass
+
         time.sleep(1)
         driver.save_screenshot(screenshot_file)
     finally:
