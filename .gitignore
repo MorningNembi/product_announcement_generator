@@ -3,6 +3,7 @@ deft-observer-456807-c5-e9dda0532301.json
 __pycache__/
 venv/
 screenshot.png
+testenv/
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,python,visualstudiocode,visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,python,visualstudiocode,visualstudio
