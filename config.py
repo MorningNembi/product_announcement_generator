@@ -40,8 +40,7 @@ MODEL_NAME_REWRITER = MODEL_NAME
 
 # ── 일반 설정 ───────────────────────────
 RECURSION_LIMIT = int(os.getenv("RECURSION_LIMIT", 15))
-# VERBOSE_NODES = os.getenv("VERBOSE_NODES", "false").lower() in ("1", "true", "yes")
-VERBOSE_NODES = False
+VERBOSE_NODES = True
 
 
 def node_log(name: str):
@@ -69,9 +68,9 @@ PRODUCT_ANNC_PARCER_PROMPT = """
 다음은 HTML에서 텍스트만 추출한 상품 페이지 정보입니다.  
 여러 종류의 부가 정보(브랜드, 리뷰, 배송 안내, 카테고리, 프로모션 등)가 혼합되어 있습니다.
 
-아래 세 필드를 반드시 JSON 형식으로만 응답하세요:
+아래 네 필드를 반드시 JSON 형식으로만 응답하세요:
 - product_name (문자열): 실제 상품명. 입력 텍스트에서 가장 먼저 등장하는 정식 상품명을 그대로 사용합니다.
-- product_lower_name (문자열): 상품의 대중적인 이름. 상품을 포함하는 카테고리를 의미합니다. 상품명에서 불필요한 정보는 제거합니다. 예: 즉석백미밥 직은공기 130g 36개입 -> 즉석백미밥
+- product_lower_name (문자열): 상품의 대중적인 이름. 상품을 포함하는 카테고리를 의미합니다. 상품명에서 불필요한 정보는 제거합니다. 예: 햇반 직은공기 130g 36개입 -> 햇반
 - total_price (정수): 최종 판매가(할인 적용 후). ‘원’ 단위를 제거하고 숫자만 추출합니다.
 - count (정수): 판매 단위. 묶음의 개수. “2개”, “'500g x 2팩'에서 2팩” 등 표기된 수량을 파싱합니다. 개수 단위가 있는지 반드시 확인하고 파싱합니다, 수량 표기가 없으면 1로 간주합니다. 단위는 제거합니다.
 
@@ -85,8 +84,9 @@ PRODUCT_ANNC_PARCER_PROMPT = """
 PRODUCT_DESC_GEN_PROMPT = """
 당신은 특정 제품을 검색한 결과로부터 제품에 대한 특징을 추출해 홍보글을 만들어주는 전문가 AI입니다. 
             사용자가 쉽게 이해할 수 있도록 중요한 제품 정보를 한국어로 자세하고 정확하게 요약하세요. 
-            제품의 주요 특징, 장점 등을 포함하되, 주어진 내용에 없는 정보는 추측하지 마세요.
+            제품의 주요 특징과 장점 등을 포함하되, 단점을 포함하지 말고, 주어진 내용에 없는 정보는 추측하지 마세요.
             중간중간 적절한 이모지를 사용하고, 판매하기 위한 홍보글 형식으로 만들어주세요.
+            마크다운이나 HTML 태그는 사용하지 마세요.
             제품을 검색한 결과는 다음과 같습니다.   
 
 # context: {context}
@@ -94,14 +94,10 @@ PRODUCT_DESC_GEN_PROMPT = """
 # 5문장 이내로 홍보글을 만들어주세요. 
 """
 
-HALLU_PROMPT = """당신은 상품 정보 검증을 위한 단순 평가자입니다.
-아래에 ‘원문’(Set of facts)과 ‘생성 결과’(LLM generation)가 주어집니다.
-1) 각 필드(product_name, count, price)에 대해:
-   - 원문에 정확히 존재하면 YES,  
-   - 그렇지 않으면 NO  
-2) 필드 검증이 모두 YES면 “overall”을 NO(→ 할루시네이션 아님),
-   하나라도 NO면 “overall”을 YES(→ 할루시네이션)로 판단하세요.
-반드시 아래 JSON 형식을 그대로 지켜 응답하세요."""
+HALLU_PROMPT = """You are a grader assessing whether an LLM generation is grounded in supported by a set of retrieved facts. \n 
+Give a binary score 'yes' or 'no'. 'Yes' means that the answer is grounded in supported by the set of facts.
+In the set of facts, spelling and wording may not be accurate. Therefore, when comparing, we define that 
+there are cases where consonants and vowels or similar pronunciations can be inferred."""
 
 REWRITE_PROMPT_SYSTEM = """You a question re-writer that converts an input question to a better version that is optimized \n 
      for vectorstore retrieval. Look at the input and try to reason about the underlying semantic intent / meaning."""
