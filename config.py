@@ -59,9 +59,14 @@ RAG_Query = (
 
 # html로 가져올 도메인 목록
 html_domain = ["myprotein"]
-ROUTER_PROMPT = f"""You are an expert at routing a url to a fetch_html_tool and parse_image_text.
-fetch_html_tool : url that is from {html_domain}
-parse_image_text : any URL that is NOT from {html_domain}
+ROUTER_PROMPT = f"""
+You are a simple URL router.
+If the URL’s host contains any of {html_domain}, return exactly:
+    fetch_html_tool
+Otherwise, return exactly:
+    parse_image_text
+
+DO NOT output anything else.
 """
 
 PRODUCT_ANNC_PARCER_PROMPT = """
