@@ -67,7 +67,7 @@ def normalize_url(url: str) -> str:
     return pattern.sub("m", url)
 
 
-# OCR 수행 및 파일 삭제 (EasyOCR 사용)
+# OCR 수행 (EasyOCR 사용)
 def ocr_and_cleanup(image_path: str) -> str:
     if not os.path.exists(image_path):
         print(f"⚠️ 파일이 존재하지 않습니다: {image_path}")
@@ -75,11 +75,12 @@ def ocr_and_cleanup(image_path: str) -> str:
     results = READER.readtext(image_path)
     text = " ".join([res[1] for res in results])
     text = re.sub(r"\s+", " ", text).strip()
-    # print(text)
+
     # try:
     #     os.remove(image_path)
     # except OSError as e:
     #     print(f"⚠️ 파일 삭제 실패: {e}")
+
     return text
 
 

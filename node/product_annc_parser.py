@@ -19,7 +19,7 @@ class Topic(BaseModel):
         description="메인 상품의 간단한 명칭(무게와 개수가 포함되지 않고, 대중적으로 불리는 이름).",
         example="방울토마토",
     )
-    total_price: int = Field(description="메인 상품의 가격")
+    total_price: int = Field(description="메인 상품의 가격(원, 달러 등의 화폐 단위가 붙은 숫자)")
     count: int = Field(description="메인 상품의 개수(개수 단위가 붙은 숫자)")
 
 
