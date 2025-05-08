@@ -29,24 +29,11 @@ def route_question(state: Dict) -> str:
         + "URL: "
         + state["url"]
         + "\n\n"
-        + "== 응답 형식 (JSON) ==\n"
-        + '{"datasource": "<fetch_html_tool|parse_image_text>"}'
+        + "== 응답 형식 ==\n"
+        + '"fetch_html_tool" or "parse_image_text"}'
     )
 
     # 2) LLM 호출 → raw JSON string or free text
-    raw_output = llm.chat(prompt).strip()
-
-    # 3) JSON 파싱 시도
-    try:
-        result = RouteQuery.parse_raw(raw_output)
-        ds = result.datasource
-    except (json.JSONDecodeError, ValidationError):
-        # 파싱 실패하면 간단 룰베이스로 fallback
-        url = state["url"]
-        if "coupang.com" in url:
-            ds = "parse_image_text"
-        else:
-            ds = "fetch_html_tool"
-
-    node_log(f"ROUTE TO {ds.upper()}")
+    ds = llm.chat(prompt).strip()
+    # 이후 안정성을 위해 답변에서 필요한 부분만 파싱하는 로직 추가
     return ds
