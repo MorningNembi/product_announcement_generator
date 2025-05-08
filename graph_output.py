@@ -154,29 +154,28 @@ def invoke_graph_json(
     config: RunnableConfig,
     node_names: List[str] = None,
     callback: Callable[[Dict[str, Any]], None] = None,
-):
+) -> Any:
     """
-    LangGraph의 'updates' 스트림을 받아 최종 노드 결과를 예쁘게 출력합니다.
-    subgraphs=True로 서브그래프 결과까지 포함하며, node_names로 필터링할 수 있습니다.
+    LangGraph의 'updates' 스트림을 돌면서,
+    node_names에 해당하는 노드가 방출하는 마지막 data만 반환합니다.
+    중간 과정은 전혀 출력하지 않습니다.
     """
-    node_names = node_names or []
+    node_names = set(node_names or [])
+    result = None
+
     try:
-        for namespace, chunk in graph.stream(
+        for _, chunk in graph.stream(
             inputs, config, stream_mode="updates", subgraphs=True
         ):
             for node, data in chunk.items():
-                if node_names and node not in node_names:
-                    continue
-
-                if callback:
-                    callback({"node": node, "content": data})
-                else:
-                    # ensure_ascii=False 로 한글이 유니코드 이스케이프 되지 않게 함
-                    print(json.dumps(data, indent=4, ensure_ascii=False))
-                    return data
+                # node_names가 비어있다면 모든 노드를 대상으로,
+                # 아니면 지정된 노드만 대상으로 업데이트
+                if not node_names or node in node_names:
+                    result = data
+        # 스트림이 끝날 때까지 돌고 나면 마지막으로 기록된 result를 반환
+        print(json.dumps(result, indent=4, ensure_ascii=False))
+        return result
 
     except Exception as e:
-        err = """공고글을 생성할 수 없습니다"""
-        print(err)
-
-        return err
+        print("공고글을 생성할 수 없습니다")
+        return e
