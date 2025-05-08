@@ -138,7 +138,8 @@ def parse_image_text(state: Dict) -> Dict:
             alert = driver.switch_to.alert
             alert.dismiss()
         except Exception as e:
-            pass
+            print(e)
+            return "alert error"
 
         time.sleep(1)
         driver.save_screenshot(screenshot_file)
@@ -148,7 +149,7 @@ def parse_image_text(state: Dict) -> Dict:
     # OCR 및 상태 업데이트
     text = ocr_and_cleanup(screenshot_file)
     if text == "":
-        print("⚠️ OCR 결과가 비어있습니다.")
+        print("OCR result is empty")
         state["html"] = ""
         return state
 

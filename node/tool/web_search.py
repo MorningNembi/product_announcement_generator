@@ -39,8 +39,13 @@ def web_search_tool(state: Dict) -> Dict:
         format_output=False,
     )
 
-    state["web_search"] = [parse_search_dict(rec) for rec in search_result]
-    return state
+    try:
+        state["web_search"] = [parse_search_dict(rec) for rec in search_result]
+        return state
+    except Exception as e:
+        print(e)
+        return "tavily error"
+
 
 
 if __name__ == "__main__":

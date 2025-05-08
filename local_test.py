@@ -30,8 +30,9 @@ if __name__ == "__main__":
     test_inputs = {
         # "url": "https://www.myprotein.co.kr/p/sports-nutrition/essential-omega-3/10529329/",
         # "url": "https://www.11st.co.kr/products/5351424764",
-        "url": "https://www.coupang.com/vp/products/8426618994?vendorItemId=85588196697&sourceType=HOME_PERSONALIZED_ADS&searchId=feed-bee41ae7dc6246a3a2d87116f2d683a0-personalized_ads&clickEventId=117be320-20d5-11f0-9ac6-081d5860c7f0&isAddedCart=",
-        # "url": "https://www.coupang.com/vp/products/8386250850?vendorItemId=90475442549&sourceType=HOME_PERSONALIZED_ADS&searchId=feed-8172ec1fe4b74be8bf39e99abb716ed2-personalized_ads&clickEventId=6ef7bf40-2a91-11f0-a1e3-e41ffcb2f197&isAddedCart="
+        # "url": "https://www.coupang.com/vp/products/8426618994?vendorItemId=85588196697&sourceType=HOME_PERSONALIZED_ADS&searchId=feed-bee41ae7dc6246a3a2d87116f2d683a0-personalized_ads&clickEventId=117be320-20d5-11f0-9ac6-081d5860c7f0&isAddedCart=",
+        # "url": "https://www.11st.co.kr/products/8154233165?&trTypeCd=MAS101&trCtgrNo=585021&checkCtlgPrd=true"
         # "url": "https://www.345.com"
+        "url": "https://www.coupang.com/vp/products/16494180?vendorItemId=92350969492&sourceType="
     }
     local_test(test_inputs)
