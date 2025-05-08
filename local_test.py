@@ -9,7 +9,7 @@ import sys
 sys.tracebacklimit = 0
 
 
-def main(inputs: dict):
+def local_test(inputs: dict):
     """
     딕셔너리 형태의 inputs를 받아 LangGraph 워크플로우를 실행합니다.
     예시) main({"url": "https://...product_page..."})
@@ -34,4 +34,4 @@ if __name__ == "__main__":
         # "url": "https://www.coupang.com/vp/products/8386250850?vendorItemId=90475442549&sourceType=HOME_PERSONALIZED_ADS&searchId=feed-8172ec1fe4b74be8bf39e99abb716ed2-personalized_ads&clickEventId=6ef7bf40-2a91-11f0-a1e3-e41ffcb2f197&isAddedCart="
         # "url": "https://www.345.com"
     }
-    main(test_inputs)
+    local_test(test_inputs)
