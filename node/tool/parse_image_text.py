@@ -14,6 +14,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import UnexpectedAlertPresentException
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium_stealth import stealth
+from urllib.parse import urlparse, urlunparse
 from config import node_log
 
 import torch
@@ -44,24 +45,12 @@ def init_easyocr_reader(langs: list) -> easyocr.Reader:
 
     return easyocr.Reader(langs, gpu=use_gpu, verbose=False)
 
-
 # 실제 Reader 생성
 READER = init_easyocr_reader(["ko", "en"])
 
-# 모바일 에뮬레이션 설정 (iPhone 12)
-MOBILE_EMULATION = {
-    "deviceMetrics": {"width": 600, "height": 1300, "pixelRatio": 2.0},
-    "userAgent": (
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) "
-        "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 "
-        "Mobile/15E148 Safari/604.1"
-    ),
-}
-
-
 # URL 정규화 함수
 def normalize_url(url: str) -> str:
-    pattern = re.compile(r"(?<=/.)p(?=/)|(?<=/)p(?=./)")
+    pattern = re.compile(r'(?<=/.)p(?=/)|(?<=/)p(?=./)')
     if "://www." in url:
         url = url.replace("://www.", "://m.")
     return pattern.sub("m", url)
@@ -70,7 +59,7 @@ def normalize_url(url: str) -> str:
 # OCR 수행 (EasyOCR 사용)
 def ocr_and_cleanup(image_path: str) -> str:
     if not os.path.exists(image_path):
-        print(f"⚠️ 파일이 존재하지 않습니다: {image_path}")
+        print(f"not valid image file path: {image_path}")
         return ""
     results = READER.readtext(image_path)
     text = " ".join([res[1] for res in results])
@@ -89,11 +78,29 @@ def parse_image_text(state: Dict) -> Dict:
     node_log("PARSE IMAGE TEXT")
     url = state.get("url")
     if not url:
-        print("⚠️ URL이 제공되지 않았습니다.")
+        print("not valid url(empty)")
         return {}
 
     screenshot_file = "screenshot.png"
     normalized = normalize_url(url)
+
+    # ─── 도메인별 뷰포트 너비 맵 ───────────────────────────
+    # 원하는 도메인을 키로, 너비(px)를 값으로 추가하세요.
+    domain_widths = {
+        "naver": 1300,
+        "example": 800
+    }
+    # 기본 모바일 뷰포트
+    width, height = 600, 1300
+
+    host = urlparse(normalized).netloc.lower()
+
+    for domain, w in domain_widths.items():
+        if domain in host:
+            width = w
+            break
+    # ───────────────────────────────────────────────────────
+
 
     # Selenium WebDriver 설정
     opts = Options()
@@ -101,7 +108,15 @@ def parse_image_text(state: Dict) -> Dict:
     opts.add_argument("--disable-blink-features=AutomationControlled")
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
-    opts.add_experimental_option("mobileEmulation", MOBILE_EMULATION)
+    opts.add_experimental_option("mobileEmulation", {
+        "deviceMetrics": {"width": width, "height": height, "pixelRatio":2.0},
+        "userAgent": (
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 "
+            "Mobile/15E148 Safari/604.1"
+        )
+    })
+
     opts.add_argument("--ignore-certificate-errors")
     opts.set_capability("acceptInsecureCerts", True)
 
