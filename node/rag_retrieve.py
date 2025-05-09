@@ -27,10 +27,12 @@ def rag_retrieve(state: Dict) -> Dict:
         node_log("RETRIEVE")
         text = state["page"]
         docs = [Document(page_content=text, metadata={"source": state["url"]})]
-        page_meta = Document(
-            page_content=state["page_meta"], metadata={"source": state["url"]}
-        )
-        docs.append(page_meta)
+        if state.get("page_meta") != "":
+            page_meta = Document(
+                page_content=state["page_meta"], metadata={"source": state["url"]}
+            )
+            docs.append(page_meta)
+
         query = prompt_template.format(product_name=state["page_meta"])
         state["retriever_query"] = query
 

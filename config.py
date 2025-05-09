@@ -56,6 +56,7 @@ def node_log(name: str):
 RAG_Query = """"({product_name})에서 보여주는 메인 상품의 가격(판매가,정가)과 개수(수량), 무게, 특징과 같은 정보"""
 
 # html로 가져올 도메인 목록
+## coupang, gmarket, brand.naver 불가
 html_domain = ["myprotein", "11st", "gsshop"]
 ROUTER_PROMPT = f"""
 You are a simple URL router.

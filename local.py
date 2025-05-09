@@ -38,6 +38,8 @@ if __name__ == "__main__":
         # "url": "https://brand.naver.com/monsterenergy/products/10366088155?nl-query=몬스터&nl-au=d69982f4b9284de5b537e43cc055bdf9&NaPm=ci%3Dd69982f4b9284de5b537e43cc055bdf9%7Cct%3Dmaf2cm4c%7Ctr%3Dnslpsb%7Csn%3D%7Chk%3D4e7e6859930dc7d23e9c6af9ae5a3b262919baf6",
         # "url": "https://www.myprotein.co.kr/p/sports-nutrition/impact-whey-protein-powder/10530943/?variation=14302236",
         # "url": "https://www.11st.co.kr/products/pa/7812983055?trTypeCd=03&trCtgrNo=2171960"
-        "url": "https://www.gsshop.com/prd/prd.gs?prdid=13866536&lseq=390802-7&gsid=ECmain-AU390802-AU390802-7&dseq=7&svcid=pc&bnclick=main-mrcm_mainMrcmA_PopularCateItemUirm&rank=7"
+        # "url": "https://www.gsshop.com/prd/prd.gs?prdid=13866536&lseq=390802-7&gsid=ECmain-AU390802-AU390802-7&dseq=7&svcid=pc&bnclick=main-mrcm_mainMrcmA_PopularCateItemUirm&rank=7"
+        # "url": "https://www.gmarket.co.kr/item?goodsCode=2851959050&ver=20231001",
+        "url": "https://brand.naver.com/basic-s/products/11065832613?NaPm=ct%3Dmagf3dxo%7Cci%3DER22e85952%2D2c9f%2D11f0%2Dafb4%2Deeae0d0a113e%7Ctr%3Dpla%7Chk%3Defd792d975085a0864d50e136bc8988dd9ac7691%7Cnacn%3D4UsnBcgvbXnU"
     }
     local_test(test_inputs)
