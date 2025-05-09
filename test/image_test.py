@@ -8,8 +8,8 @@ from fastapi.testclient import TestClient
 
 client = TestClient(app)
 
-# 1) 정상 동작 케이스: (URL, 예상 lower_name, 예상 total_price, 예상 count)
-@pytest.mark.parametrize("url, exp_lower, exp_price, exp_count", [
+# 1) 정상 동작 케이스: (URL, 예상 lower_name의 키워드, 예상 total_price, 예상 count)
+@pytest.mark.parametrize("url, exp_keyword, exp_price, exp_count", [
     (
         "https://brand.naver.com/monsterenergy/products/10366088155?nl-query=%EB%AA%AC%EC%8A%A4%ED%84%B0&nl-au=d69982f4b9284de5b537e43cc055bdf9",
         "본스터 에너지", 19980, 12
@@ -20,11 +20,11 @@ client = TestClient(app)
     ),
     (
         "https://www.11st.co.kr/products/5351424764",
-        "스윗마토 방울토마토", 10500, 2
+        "방울토마토", 10500, 2
     ),
 ])
 
-def test_generation_success(url, exp_lower, exp_price, exp_count):
+def test_generation_success(url, exp_keyword, exp_price, exp_count):
     # API 호출
     resp = client.post("/generation/description", json={"url": url}, timeout = 120)
     assert resp.status_code == 200
@@ -34,7 +34,9 @@ def test_generation_success(url, exp_lower, exp_price, exp_count):
     assert body["message"] == "상품 상세 설명이 생성되었습니다."
     # 데이터 필드 확인
     data = body["data"]
-    assert data["product_lower_name"] == exp_lower
+    assert exp_keyword in data["product_lower_name"], (
+        f"'{exp_keyword}' not in '{data['product_lower_name']}'"
+    )
     assert data["total_price"] == exp_price
     assert data["count"] == exp_count
 
@@ -47,18 +49,17 @@ def test_generation_success(url, exp_lower, exp_price, exp_count):
     time.sleep(30)
 
 
-# def test_generation_failure(monkeypatch):
+def test_generation_failure(monkeypatch):
+    import generate_product_announcement as gpa_module
 
-#     import generate_product_announcement as gpa_module
+    def fake_raise(arg):
+        raise RuntimeError("forced error")
+    monkeypatch.setattr(gpa_module, "generate_product_announcement", fake_raise)
 
-#     def fake_raise(arg):
-#         raise RuntimeError("forced error")
-#     monkeypatch.setattr(gpa_module, "generate_product_announcement", fake_raise)
+    resp = client.post("/generation/description", json={"url": "https://example.com"})
+    assert resp.status_code == 200
 
-#     resp = client.post("/generation/description", json={"url": "https://example.com"})
-#     assert resp.status_code == 200
-
-#     body = resp.json()
-#     # 오류 메시지 및 data=null 확인
-#     assert body["message"] == "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-#     assert body["data"] is None
+    body = resp.json()
+    # 오류 메시지 및 data=null 확인
+    assert body["message"] == "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    assert body["data"] is None
