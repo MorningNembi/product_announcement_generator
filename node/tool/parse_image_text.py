@@ -45,12 +45,14 @@ def init_easyocr_reader(langs: list) -> easyocr.Reader:
 
     return easyocr.Reader(langs, gpu=use_gpu, verbose=False)
 
+
 # 실제 Reader 생성
 READER = init_easyocr_reader(["ko", "en"])
 
+
 # URL 정규화 함수
 def normalize_url(url: str) -> str:
-    pattern = re.compile(r'(?<=/.)p(?=/)|(?<=/)p(?=./)')
+    pattern = re.compile(r"(?<=/.)p(?=/)|(?<=/)p(?=./)")
     if "://www." in url:
         url = url.replace("://www.", "://m.")
     return pattern.sub("m", url)
@@ -86,10 +88,7 @@ def parse_image_text(state: Dict) -> Dict:
 
     # ─── 도메인별 뷰포트 너비 맵 ───────────────────────────
     # 원하는 도메인을 키로, 너비(px)를 값으로 추가하세요.
-    domain_widths = {
-        "naver": 1300,
-        "example": 800
-    }
+    domain_widths = {"naver": 1300, "example": 800}
     # 기본 모바일 뷰포트
     width, height = 600, 1300
 
@@ -101,21 +100,23 @@ def parse_image_text(state: Dict) -> Dict:
             break
     # ───────────────────────────────────────────────────────
 
-
     # Selenium WebDriver 설정
     opts = Options()
     opts.add_argument("--headless=new")
     opts.add_argument("--disable-blink-features=AutomationControlled")
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
-    opts.add_experimental_option("mobileEmulation", {
-        "deviceMetrics": {"width": width, "height": height, "pixelRatio":2.0},
-        "userAgent": (
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) "
-            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 "
-            "Mobile/15E148 Safari/604.1"
-        )
-    })
+    opts.add_experimental_option(
+        "mobileEmulation",
+        {
+            "deviceMetrics": {"width": width, "height": height, "pixelRatio": 2.0},
+            "userAgent": (
+                "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) "
+                "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 "
+                "Mobile/15E148 Safari/604.1"
+            ),
+        },
+    )
 
     opts.add_argument("--ignore-certificate-errors")
     opts.set_capability("acceptInsecureCerts", True)
@@ -167,5 +168,5 @@ def parse_image_text(state: Dict) -> Dict:
         print("OCR result is empty")
         return "OCR result is empty. please check image."
 
-    state["html"] = text
+    state["page"] = text
     return state

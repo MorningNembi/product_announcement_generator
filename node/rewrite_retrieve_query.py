@@ -27,7 +27,6 @@ def transform_retrieve_query(state: Dict) -> Dict:
     better_query: str = question_rewriter.invoke(
         {
             "retriever_query": state["retriever_query"],
-            "generation": state["generation"],
         }
     )
     state["retriever_query"] = better_query

@@ -1,4 +1,4 @@
-from typing_extensions import TypedDict, Annotated
+from typing_extensions import TypedDict, Annotated, Any
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
 from node.tool.fetch_html import fetch_html_tool
@@ -24,7 +24,9 @@ from node.product_desc_gen import product_desc_gen
 
 class GraphState(TypedDict):
     url: Annotated[str, "url"]
-    html: Annotated[list, "HTML"]
+    page: Annotated[list, "page"]
+    page_meta: Annotated[str, "page_meta"]
+
     retriever_query: Annotated[str, "retriever_query"]
     web_search_query: Annotated[str, "web_search_query"]
     documents: Annotated[list, "docs"]

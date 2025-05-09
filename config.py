@@ -13,11 +13,11 @@ VERTEX_API_KEY = os.getenv("VERTEX_API_KEY")
 # gpt-4o, gemini-1.5-pro
 
 ## Router LLM 설정
-# LLM_PROVIDER = "openai"
-# MODEL_NAME = "gpt-4o"
-LLM_PROVIDER = "vertexai"
+LLM_PROVIDER = "openai"
+MODEL_NAME = "gpt-4o"
+# LLM_PROVIDER = "vertexai"
 # MODEL_NAME = "gemini-2.0-flash-001"
-MODEL_NAME = "gemini-1.5-pro-002"
+# MODEL_NAME = "gemini-1.5-pro-002"
 
 if LLM_PROVIDER == "vertexai":
     GCP_PROJECT = os.getenv("GCP_PROJECT")
@@ -53,12 +53,10 @@ def node_log(name: str):
 
 
 # ── 프롬프트 템플릿 상수 ─────────────────
-RAG_Query = (
-    """"상품설명, 이름, 가격, 성분, 특이상항 등 가장 메인인 상품에 대한 구체적인 설명"""
-)
+RAG_Query = """"({product_name})에서 보여주는 메인 상품의 가격(판매가,정가)과 개수(수량), 무게, 특징과 같은 정보"""
 
 # html로 가져올 도메인 목록
-html_domain = ["myprotein"]
+html_domain = ["myprotein", "11st", "gsshop"]
 ROUTER_PROMPT = f"""
 You are a simple URL router.
 If the URL’s host contains any of {html_domain}, return exactly:
@@ -107,8 +105,6 @@ there are cases where consonants and vowels or similar pronunciations can be inf
 REWRITE_PROMPT_SYSTEM = """You a question re-writer that converts an input question to a better version that is optimized \n 
      for vectorstore retrieval. Look at the input and try to reason about the underlying semantic intent / meaning."""
 
-REWRITE_PROMPT_HUMAN = """사용자가 입력한 검색어는 다음과 같습니다: {retriever_query}
-            이 검색어를 검색기에서 가장 관련성 높은 결과를 찾을 수 있도록,
-            • 주요 정보({generation})를 추가하고  
-            • 불필요한 설명을 제거하며(무게, 개수 등)
-            • 전체 문맥을 잘 반영하는 구체적인 질의 문장으로 다시 작성해 주세요."""
+REWRITE_PROMPT_HUMAN = """사용자가 이전에 입력한 검색어는 다음과 같습니다: {retriever_query}
+            이 검색어를 검색기에서 가장 관련성 높은 결과를 찾을 수 있도록, 
+            구체적인 질의 문장으로 다시 작성해 주세요."""
