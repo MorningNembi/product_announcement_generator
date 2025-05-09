@@ -78,7 +78,7 @@ def parse_image_text(state: Dict) -> Dict:
     node_log("PARSE IMAGE TEXT")
     url = state.get("url")
     if not url:
-        print("not valid url(empty)")
+        print("empty url")
         return {}
 
     screenshot_file = "./img/screenshot.png"
