@@ -81,7 +81,7 @@ def parse_image_text(state: Dict) -> Dict:
         print("not valid url(empty)")
         return {}
 
-    screenshot_file = "screenshot.png"
+    screenshot_file = "./img/screenshot.png"
     normalized = normalize_url(url)
 
     # ─── 도메인별 뷰포트 너비 맵 ───────────────────────────
@@ -165,16 +165,7 @@ def parse_image_text(state: Dict) -> Dict:
     text = ocr_and_cleanup(screenshot_file)
     if text == "":
         print("OCR result is empty")
-        state["html"] = ""
-        return state
+        return "OCR result is empty. please check image."
 
     state["html"] = text
     return state
-
-
-# 단일 진입점
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python screenshot_mobile.py <URL>")
-        sys.exit(1)
-    parse_image_text({"url": sys.argv[1]})
