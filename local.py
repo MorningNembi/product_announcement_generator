@@ -32,14 +32,11 @@ if __name__ == "__main__":
         # "url": "https://www.myprotein.co.kr/p/sports-nutrition/essential-omega-3/10529329/",
         # 11번가 방토
         # "url": "https://www.11st.co.kr/products/5351424764",
-        # 쿠팡 햇반
-        # "url": "https://www.coupang.com/vp/products/8426618994?vendorItemId=85588196697&sourceType=HOME_PERSONALIZED_ADS&searchId=feed-bee41ae7dc6246a3a2d87116f2d683a0-personalized_ads&clickEventId=117be320-20d5-11f0-9ac6-081d5860c7f0&isAddedCart=",
+        # 쿠팡 햇반잡곡밥
+        "url": "https://www.coupang.com/vp/products/8107798642?itemId=23374319052&vendorItemId=90882133321&q=%ED%96%87%EB%B0%98%EC%9E%A1%EA%B3%A1%EB%B0%A5&searchId=b215e1e91830973&sourceType=search&itemsCount=36&searchRank=10&rank=10",
         # 네이버 몬스터
-        # "url": "https://brand.naver.com/monsterenergy/products/10366088155?nl-query=몬스터&nl-au=d69982f4b9284de5b537e43cc055bdf9&NaPm=ci%3Dd69982f4b9284de5b537e43cc055bdf9%7Cct%3Dmaf2cm4c%7Ctr%3Dnslpsb%7Csn%3D%7Chk%3D4e7e6859930dc7d23e9c6af9ae5a3b262919baf6",
-        # "url": "https://www.myprotein.co.kr/p/sports-nutrition/impact-whey-protein-powder/10530943/?variation=14302236",
-        # "url": "https://www.11st.co.kr/products/pa/7812983055?trTypeCd=03&trCtgrNo=2171960"
+        # "url": "https://brand.naver.com/monsterenergy/products/6697660209",
+        # GS샵
         # "url": "https://www.gsshop.com/prd/prd.gs?prdid=13866536&lseq=390802-7&gsid=ECmain-AU390802-AU390802-7&dseq=7&svcid=pc&bnclick=main-mrcm_mainMrcmA_PopularCateItemUirm&rank=7"
-        # "url": "https://www.gmarket.co.kr/item?goodsCode=2851959050&ver=20231001",
-        "url": "https://brand.naver.com/basic-s/products/11065832613?NaPm=ct%3Dmagf3dxo%7Cci%3DER22e85952%2D2c9f%2D11f0%2Dafb4%2Deeae0d0a113e%7Ctr%3Dpla%7Chk%3Defd792d975085a0864d50e136bc8988dd9ac7691%7Cnacn%3D4UsnBcgvbXnU"
     }
     local_test(test_inputs)
