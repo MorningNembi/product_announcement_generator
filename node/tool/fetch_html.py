@@ -5,8 +5,9 @@ from langchain_core.documents import Document
 import requests, logging
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service  # 추가
-from webdriver_manager.chrome import ChromeDriverManager  # 추가
+from selenium.webdriver.chrome.service import Service 
+from selenium_stealth import stealth
+from webdriver_manager.chrome import ChromeDriverManager
 from typing import Dict, Any
 from config import node_log
 
@@ -25,11 +26,48 @@ def is_blocked(content: str) -> bool:
 
 def fetch_with_selenium(url: str, timeout: int = 15) -> str:
     opts = Options()
-    opts.add_argument("--headless")
-    # Service 객체로 드라이버 경로 전달
+    opts.add_argument("--headless=new")
+    opts.add_argument("--disable-blink-features=AutomationControlled")
+    opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+    # opts.add_experimental_option(
+    #     "mobileEmulation",
+    #     {
+    #         "deviceMetrics": {"width": 600, "height": height, "pixelRatio": 2.0},
+    #         "userAgent": (
+    #             "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) "
+    #             "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 "
+    #             "Mobile/15E148 Safari/604.1"
+    #         ),
+    #     },
+    # )
+    opts.add_argument("--ignore-certificate-errors")
+    opts.set_capability("acceptInsecureCerts", True)
+
+    # 드라이버 실행
     service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=opts)
-    driver.set_page_load_timeout(timeout)
+    driver = webdriver.Chrome(
+        service=service,
+        options=opts
+    )
+
+    stealth(
+        driver,
+        languages=["ko-KR", "ko"],
+        vendor="Google Inc.",
+        platform="iPhone",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+    )
+
+    driver.execute_cdp_cmd(
+        "Page.addScriptToEvaluateOnNewDocument",
+        {
+            "source": "window.alert = ()=>{}; window.confirm = ()=>true; window.prompt = ()=>null;"
+        },
+    )
+
     driver.get(url)
     html = driver.page_source
     driver.quit()
