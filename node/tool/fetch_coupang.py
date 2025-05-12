@@ -16,8 +16,8 @@ warnings.filterwarnings("ignore", category=InsecureRequestWarning)
 # ─── .env 로드 및 proxy 설정 ─────────────────────────
 load_dotenv()
 proxy_list = [
-    # os.getenv("PROXY1"),
-    # os.getenv("PROXY2"),
+    os.getenv("PROXY1"),
+    os.getenv("PROXY2"),
     os.getenv("PROXY3"),
 ]
 user_agent_list = [
