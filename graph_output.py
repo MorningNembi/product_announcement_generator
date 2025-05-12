@@ -145,7 +145,7 @@ def invoke_graph_clean(
                     else:
                         print(data)
     except Exception as e:
-        print("공고글을 생성할 수 없습니다")
+        print(f"공고글을 생성할 수 없습니다\n{e}")
 
 
 def invoke_graph_json(

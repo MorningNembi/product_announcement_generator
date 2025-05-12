@@ -14,8 +14,8 @@ class Generate_product_announcement_Request(BaseModel):
 
 # 2) 응답 데이터 스키마
 class Generate_product_announcement_Response(BaseModel):
+    title: str
     product_name: str
-    product_lower_name: str
     total_price: int
     count: int
     summary: str

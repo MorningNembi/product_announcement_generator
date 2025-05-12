@@ -99,6 +99,19 @@ PRODUCT_DESC_GEN_PROMPT = """
 # 5문장 이내로 홍보글을 만들어주세요. 
 """
 
+PRODUCT_TITLE_GEN_PROMPT = """
+당신은 특정 제품을 검색한 결과로부터 제품에 대한 특징을 추출해 홍보글의 제목을 만들어주는 전문가 AI입니다. 
+            사용자가 쉽게 이해할 수 있도록 중요한 제품 정보를 한국어로 자세하고 정확하게 요약하세요. 
+            제품의 주요 특징과 장점 등을 포함하되, 단점을 포함하지 말고, 주어진 내용에 없는 정보는 추측하지 마세요.
+            중간중간 적절한 이모지를 사용하고, 판매하기 위한 상품 홍보의 제목 형식으로 만들어주세요.
+            마크다운이나 HTML 태그는 사용하지 마세요.
+            제품에 대한 정보는 다음과 같습니다.  
+
+# context: {context}
+
+# 30자 이내로 사용자의 눈에 띌 수 있는 상품 제목을 만들어 주세요. product_lower_name은 반드시 들어가야 합니다.
+"""
+
 HALLU_PROMPT = """You are a grader assessing whether an LLM generation is grounded in supported by a set of retrieved facts. \n 
 Give a binary score 'yes' or 'no'. 'Yes' means that the answer is grounded in supported by the set of facts.
 In the set of facts, spelling and wording may not be accurate. Therefore, when comparing, we define that 

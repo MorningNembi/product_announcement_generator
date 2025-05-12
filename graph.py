@@ -20,7 +20,7 @@ from node.groundness_check import (
 )
 from node.product_annc_parser import product_annc_parser
 from node.product_desc_gen import product_desc_gen
-
+from node.product_title_gen import product_title_gen
 
 class GraphState(TypedDict):
     url: Annotated[str, "url"]
@@ -50,8 +50,9 @@ workflow.add_node("product_desc_gen", product_desc_gen)  # 상품 설명 생성
 workflow.add_node("transform_retrieve_query", transform_retrieve_query)  # 질의 재작성
 workflow.add_node(
     "transform_web_search_query", transform_web_search_query
-)  # 질의 재작성
-# workflow.add_node("generate", generate)  # generate
+)  
+workflow.add_node("product_title_gen", product_title_gen)  # HTML 문서 가져오기
+
 
 # 엣지 정의
 workflow.add_conditional_edges(
@@ -59,7 +60,7 @@ workflow.add_conditional_edges(
     route_question,
     {
         "fetch_html_tool": "fetch_html_tool",
-        "parse_image_text": "parse_image_text",  # parse_image_text 미구현
+        "parse_image_text": "parse_image_text",
     },
 )
 
@@ -85,10 +86,12 @@ workflow.add_conditional_edges(
     grade_generation_v_documents_and_desc_gen,
     {
         "hallucination": "transform_web_search_query",
-        "relevant": END,
+        "relevant": "product_title_gen",
     },
 )
 workflow.add_edge("transform_web_search_query", "web_search_tool")
+
+workflow.add_edge("product_title_gen", END)
 
 # 그래프 컴파일
 app = workflow.compile(checkpointer=MemorySaver())

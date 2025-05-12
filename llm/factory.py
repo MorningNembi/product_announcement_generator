@@ -38,6 +38,8 @@ def get_annc_parser_client() -> LLMClient:
 def get_desc_gen_client() -> LLMClient:
     return _get_client(LLM_PROVIDER_GENERATOR, MODEL_NAME_GENERATOR, temperature=0.3)
 
+def get_title_gen_client() -> LLMClient:
+    return _get_client(LLM_PROVIDER_GENERATOR, MODEL_NAME_GENERATOR, temperature=0.3)
 
 def get_grader_client() -> LLMClient:
     return _get_client(LLM_PROVIDER_GRADER, MODEL_NAME_GRADER)
