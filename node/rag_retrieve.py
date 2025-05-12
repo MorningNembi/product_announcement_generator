@@ -32,8 +32,10 @@ def rag_retrieve(state: Dict) -> Dict:
                 page_content=state["page_meta"], metadata={"source": state["url"]}
             )
             docs.append(page_meta)
+            query = prompt_template.format(product_name=state["page_meta"])
+        else:
+            query = prompt_template.format(product_name=state["page"])
 
-        query = prompt_template.format(product_name=state["page_meta"])
         state["retriever_query"] = query
 
         # 1) HTML을 청크로 분할
