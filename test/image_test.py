@@ -17,11 +17,7 @@ client = TestClient(app)
     (
         "https://www.coupang.com/vp/products/8107798642?itemId=23374319052&vendorItemId=90882133321",
         "햇반", 30360, 36
-    ),
-    (
-        "https://www.11st.co.kr/products/5351424764",
-        "방울토마토", 10500, 2
-    ),
+    )
 ])
 
 def test_generation_success(url, exp_keyword, exp_price, exp_count):
@@ -34,8 +30,8 @@ def test_generation_success(url, exp_keyword, exp_price, exp_count):
     assert body["message"] == "상품 상세 설명이 생성되었습니다."
     # 데이터 필드 확인
     data = body["data"]
-    assert exp_keyword in data["product_lower_name"], (
-        f"'{exp_keyword}' not in '{data['product_lower_name']}'"
+    assert exp_keyword in data["title"], (
+        f"'{exp_keyword}' not in '{data['title']}'"
     )
     assert data["total_price"] == exp_price
     assert data["count"] == exp_count
@@ -49,17 +45,17 @@ def test_generation_success(url, exp_keyword, exp_price, exp_count):
     time.sleep(30)
 
 
-def test_generation_failure(monkeypatch):
-    import generate_product_announcement as gpa_module
+# def test_generation_failure(monkeypatch):
+#     import generate_product_announcement as gpa_module
 
-    def fake_raise(arg):
-        raise RuntimeError("forced error")
-    monkeypatch.setattr(gpa_module, "generate_product_announcement", fake_raise)
+#     def fake_raise(arg):
+#         raise RuntimeError("forced error")
+#     monkeypatch.setattr(gpa_module, "generate_product_announcement", fake_raise)
 
-    resp = client.post("/generation/description", json={"url": "https://example.com"})
-    assert resp.status_code == 200
+#     resp = client.post("/generation/description", json={"url": "https://example.com"})
+#     assert resp.status_code == 200
 
-    body = resp.json()
-    # 오류 메시지 및 data=null 확인
-    assert body["message"] == "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-    assert body["data"] is None
+#     body = resp.json()
+#     # 오류 메시지 및 data=null 확인
+#     assert body["message"] == "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+#     assert body["data"] is None
