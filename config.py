@@ -14,7 +14,7 @@ VERTEX_API_KEY = os.getenv("VERTEX_API_KEY")
 
 ## Router LLM 설정
 LLM_PROVIDER = "openai"
-MODEL_NAME = "gpt-4o"
+MODEL_NAME = "gpt-3.5-turbo"
 # LLM_PROVIDER = "vertexai"
 # MODEL_NAME = "gemini-2.0-flash-001"
 # MODEL_NAME = "gemini-1.5-pro-002"
@@ -57,7 +57,7 @@ RAG_Query = """"({product_name})에서 보여주는 메인 상품의 가격(판�
 
 # html로 가져올 도메인 목록
 ## coupang, gmarket, brand.naver 불가
-html_domain = ["myprotein", "11st", "gsshop", "coopang"]
+html_domain = ["myprotein", "11st", "gsshop"]
 ROUTER_PROMPT = f"""
 You are a simple URL router.
 If the URL’s host contains any of {html_domain}, return exactly:
