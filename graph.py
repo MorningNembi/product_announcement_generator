@@ -4,6 +4,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from node.tool.fetch_html import fetch_html_tool
 from node.tool.parse_image_text import parse_image_text
 from node.tool.web_search import web_search_tool
+from node.tool.fetch_coupang import fetch_coupang_tool
 
 from node.route_question import route_question
 from node.clean_html import html_clean
@@ -22,6 +23,7 @@ from node.product_annc_parser import product_annc_parser
 from node.product_desc_gen import product_desc_gen
 from node.product_title_gen import product_title_gen
 
+
 class GraphState(TypedDict):
     url: Annotated[str, "url"]
     page: Annotated[list, "page"]
@@ -39,6 +41,7 @@ workflow = StateGraph(GraphState)
 
 # 노드 정의
 workflow.add_node("fetch_html_tool", fetch_html_tool)  # HTML 문서 가져오기
+workflow.add_node("fetch_coupang_tool", fetch_coupang_tool)
 workflow.add_node("parse_image_text", parse_image_text)
 workflow.add_node("web_search_tool", web_search_tool)  # 웹 서칭
 
@@ -48,9 +51,7 @@ workflow.add_node("rag_retrieve", rag_retrieve)  # RAG 문서 검색
 workflow.add_node("product_annc_parser", product_annc_parser)  # 상품 정보 파싱
 workflow.add_node("product_desc_gen", product_desc_gen)  # 상품 설명 생성
 workflow.add_node("transform_retrieve_query", transform_retrieve_query)  # 질의 재작성
-workflow.add_node(
-    "transform_web_search_query", transform_web_search_query
-)  
+workflow.add_node("transform_web_search_query", transform_web_search_query)
 workflow.add_node("product_title_gen", product_title_gen)  # HTML 문서 가져오기
 
 
@@ -60,12 +61,14 @@ workflow.add_conditional_edges(
     route_question,
     {
         "fetch_html_tool": "fetch_html_tool",
+        "fetch_coupang_tool": "fetch_coupang_tool",
         "parse_image_text": "parse_image_text",
     },
 )
 
 workflow.add_edge("fetch_html_tool", "clean_html")
 workflow.add_edge("clean_html", "rag_retrieve")
+workflow.add_edge("fetch_coupang_tool", "rag_retrieve")
 workflow.add_edge("parse_image_text", "rag_retrieve")
 
 workflow.add_edge("rag_retrieve", "product_annc_parser")

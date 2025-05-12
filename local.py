@@ -31,9 +31,10 @@ if __name__ == "__main__":
         # 마프 오메가3
         # "url": "https://www.myprotein.co.kr/p/sports-nutrition/essential-omega-3/10529329/",
         # 11번가 방토
-        "url": "https://www.11st.co.kr/products/5351424764",
+        # "url": "https://www.11st.co.kr/products/5351424764",
         # 쿠팡 발아현미밥
         # "url": "https://www.coupang.com/vp/products/8107798642"
+        "url": "https://www.coupang.com/vp/products/7038410615?itemId=17397680231&vendorItemId=84567137606&sourceType=CATEGORY&categoryId=393660&isAddedCart=",
         # 네이버 몬스터
         # "url": "https://brand.naver.com/monsterenergy/products/6697660209",
         # GS샵

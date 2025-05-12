@@ -62,12 +62,14 @@ ROUTER_PROMPT = f"""
 You are a simple URL router.
 If the URL’s host contains any of {html_domain}, return exactly:
     fetch_html_tool
+Or If the URL’s host contains 'coupang', return exactly:
+    fetch_coupang_tool
 Otherwise, return exactly:
     parse_image_text
 
 DO NOT output anything else.
-DO NOT USING quotes, TEXT ONLY.
-"""
+DO NOT output any other text.
+DO NOT output any other format."""
 
 PRODUCT_ANNC_PARCER_PROMPT = """
 다음은 HTML에서 텍스트만 추출한 상품 페이지 정보입니다.  
