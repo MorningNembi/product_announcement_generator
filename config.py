@@ -14,7 +14,7 @@ VERTEX_API_KEY = os.getenv("VERTEX_API_KEY")
 
 ## Router LLM 설정
 LLM_PROVIDER = "openai"
-MODEL_NAME = "gpt-3.5-turbo"
+MODEL_NAME = "gpt-4.1-nano-2025-04-14"
 # LLM_PROVIDER = "vertexai"
 # MODEL_NAME = "gemini-2.0-flash-001"
 # MODEL_NAME = "gemini-1.5-pro-002"
@@ -66,6 +66,7 @@ Otherwise, return exactly:
     parse_image_text
 
 DO NOT output anything else.
+DO NOT USING quotes, TEXT ONLY.
 """
 
 PRODUCT_ANNC_PARCER_PROMPT = """
