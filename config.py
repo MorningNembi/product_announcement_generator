@@ -67,10 +67,9 @@ Or If the URL’s host contains 'coupang', return exactly:
 Otherwise, return exactly:
     parse_image_text
 
-DO NOT output anything else.
-DO NOT output any other text.
-DO NOT output any other format.
-Only output using TEXT"""
+DO NOT USE QUOTE.
+USE TEXT ONLY.
+"""
 
 PRODUCT_ANNC_PARCER_PROMPT = """
 다음은 HTML에서 텍스트만 추출한 상품 페이지 정보입니다.  
