@@ -59,7 +59,7 @@ def normalize_url(url: str) -> str:
 
 
 # OCR 수행 (EasyOCR 사용)
-def ocr_and_cleanup(image_path: str) -> str:
+def ocr(image_path: str) -> str:
     if not os.path.exists(image_path):
         print(f"not valid image file path: {image_path}")
         return ""
@@ -88,9 +88,9 @@ def parse_image_text(state: Dict) -> Dict:
 
     # ─── 도메인별 뷰포트 너비 맵 ───────────────────────────
     # 원하는 도메인을 키로, 너비(px)를 값으로 추가하세요.
-    domain_widths = {"naver": 1300, "example": 800}
+    domain_widths = {"coupang": 600}
     # 기본 모바일 뷰포트
-    width, height = 600, 1300
+    width, height = 1300, 1300
 
     host = urlparse(normalized).netloc.lower()
 
@@ -163,7 +163,7 @@ def parse_image_text(state: Dict) -> Dict:
         driver.quit()
 
     # OCR 및 상태 업데이트
-    text = ocr_and_cleanup(screenshot_file)
+    text = ocr(screenshot_file)
     if text == "":
         print("OCR result is empty")
         return "OCR result is empty. please check image."
