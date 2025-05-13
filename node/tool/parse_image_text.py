@@ -87,16 +87,19 @@ def parse_image_text(state: Dict) -> Dict:
     normalized = normalize_url(url)
 
     # ─── 도메인별 뷰포트 너비 맵 ───────────────────────────
-    # 원하는 도메인을 키로, 너비(px)를 값으로 추가하세요.
-    domain_widths = {"coupang": 600}
-    # 기본 모바일 뷰포트
+    domain_widths = {
+        "coupang": (600, 1300),
+        "gmarket": (1300, 600),
+    }
+
+    # 기본 뷰포트
     width, height = 1300, 1300
 
     host = urlparse(normalized).netloc.lower()
 
-    for domain, w in domain_widths.items():
+    for domain, (w, h) in domain_widths.items():
         if domain in host:
-            width = w
+            width, height = w, h
             break
     # ───────────────────────────────────────────────────────
 
