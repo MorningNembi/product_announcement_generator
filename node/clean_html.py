@@ -12,7 +12,7 @@ def html_clean(state: Dict[str, Any]) -> Dict[str, Any]:
         if isinstance(state["page"], list) and hasattr(state["page"][0], "page_content")
         else state["page"]
     )
-    # html 테그 제거?
+    # html 테그 제거
     soup = BeautifulSoup(raw_html, "html.parser")
     state["page"] = soup.get_text(separator="\n", strip=True)
     # 2) 화이트리스트에 있는 요소만 개별적으로 추출

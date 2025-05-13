@@ -126,8 +126,6 @@ def invoke_graph_clean(
                         if formatted_ns != "root graph"
                         else ""
                     )
-                    # print(f"🔄 Node: \033[1;36m{node}\033[0m{ns_label} 🔄")
-                    # print("-" * 25)
 
                     # dict → 키별로, list → 아이템별로, 그 외 → 그대로 출력
                     if isinstance(data, dict):
@@ -145,7 +143,7 @@ def invoke_graph_clean(
                     else:
                         print(data)
     except Exception as e:
-        print(f"공고글을 생성할 수 없습니다\n{e}")
+        print(f"====error====\n{e}")
 
 
 def invoke_graph_json(

@@ -20,7 +20,7 @@ def product_desc_gen(state: Dict) -> Dict:
     docs = state["web_search"]
     # <document> 태그로 wrapping
     context = "\n\n".join(
-        f"<document><content>{doc.page_content}</content><source>{doc.metadata['source']}</source></document>"
+        f"<document><content>{doc.page_content}</content></document>"
         for doc in docs
     )
     # 프롬프트 포맷팅 및 호출

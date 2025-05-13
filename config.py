@@ -129,7 +129,7 @@ If all statements are supported, output {"binary_score":"yes"}, otherwise {"bina
 """
 
 
-REWRITE_PROMPT_SYSTEM = """You a question re-writer that converts an input question to a better version that is optimized \n 
+REWRITE_PROMPT_SYSTEM = """You are a question re-writer that converts an input question to a better version that is optimized \n 
      for vectorstore retrieval. Look at the input and try to reason about the underlying semantic intent / meaning."""
 
 REWRITE_PROMPT_HUMAN = """사용자가 이전에 입력한 검색어는 다음과 같습니다: {retriever_query}

@@ -23,7 +23,7 @@ def _grade(state: Dict, docs_key: str) -> str:
     # 1) 문서 리스트를 flatten
     docs = state.get(docs_key, [])
     docs_str = "\n\n".join(
-        f"<document><content>{doc.page_content}</content><source>{doc.metadata['source']}</source></document>"
+        f"<document><content>{doc.page_content}</content></document>"
         for doc in docs
     )
     if docs_key == "web_search":
@@ -38,7 +38,7 @@ def _grade(state: Dict, docs_key: str) -> str:
         f"{HALLU_PROMPT.strip()}\n\n"
         f"Set of facts:\n\n{docs_str}\n\n"
         f"LLM generation:\n\n{gen}\n\n"
-        f"== 응답 형식 (JSON) ==\n"
+        f"== RESPONSE FORMAT (JSON) ==\n"
         f'{{"binary_score":"<yes|no>"}}'
     )
 
