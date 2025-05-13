@@ -139,12 +139,12 @@ direction TB
 end
     
     
-    LLM1 --> hallucination_check1
+    LLM1 -->|JSON| hallucination_check1
     hallucination_check1 -->|불만족: rewirte_retrieve_query| vector_search
     hallucination_check1 -->|만족: JSON| web_search
     web_search --> LLM2(LLM: Product Description Generator)
     LLM2 --> hallucination_check2
-    hallucination_check2 -->|만족| at(Announcement title generator)
+    hallucination_check2 -->|만족| at(LLM: Announcement Title Generator)
     hallucination_check2 -->|불만족: rewrite_websearch_query| web_search
-    at --> End(Product Information Summary)
+    at -->|JSON| End(Product Information Summary)
 ```
