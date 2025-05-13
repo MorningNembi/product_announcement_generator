@@ -39,6 +39,8 @@ if __name__ == "__main__":
         # "url": "https://brand.naver.com/monsterenergy/products/6697660209",
         # GS샵
         # "url": "https://www.gsshop.com/prd/prd.gs?prdid=13866536&lseq=390802-7&gsid=ECmain-AU390802-AU390802-7&dseq=7&svcid=pc&bnclick=main-mrcm_mainMrcmA_PopularCateItemUirm&rank=7"
-        "url": "https://link.coupang.com/a/ctoiRB"
+        # "url": "https://link.coupang.com/a/ctoiRB"
+        # "url": "https://www.coupang.com/vp/products/8209850954?itemId=19358486912&vendorItemId=84100777258&sourceType=cmgoms&omsPageId=145945&omsPageUrl=145945"
+        "url": "https://www.coupang.com/vp/products/322506030?itemId=1033106163&vendorItemId=5482936102&pickType=COU_PICK&q=로블론&itemsCount=36&searchId=cee1f75a5445377&rank=0&searchRank=0&isAddedCart="
     }
     local_test(test_inputs)

@@ -34,5 +34,5 @@ def route_question(state: Dict) -> str:
     # 2) LLM 호출 → raw JSON string or free text
     ds = llm.chat(prompt).strip()
     # 이후 안정성을 위해 답변에서 필요한 부분만 파싱하는 로직 추가
-    print(ds)
+    # print(ds)
     return ds

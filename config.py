@@ -114,10 +114,20 @@ PRODUCT_TITLE_GEN_PROMPT = """
 # 30자 이내로 사용자의 눈에 띌 수 있는 상품 제목을 만들어 주세요. product_lower_name은 반드시 들어가야 합니다.
 """
 
-HALLU_PROMPT = """You are a grader assessing whether an LLM generation is grounded in supported by a set of retrieved facts. \n 
+RAG_HALLU_PROMPT = """You are a grader assessing whether an LLM generation is grounded in supported by a set of retrieved facts. \n 
 Give a binary score 'yes' or 'no'. 'Yes' means that the answer is grounded in supported by the set of facts.
 In the set of facts, spelling and wording may not be accurate. Therefore, when comparing, we define that 
 there are cases where consonants and vowels or similar pronunciations can be inferred."""
+
+WEB_HALLU_PROMPT = """
+You are a hallucination evaluator working with web search results.
+You will receive:
+- Set of facts: snippets, titles, and URLs retrieved by Tavily for the product.
+- LLM generation: the summary text produced by the model.
+Your task is to determine whether every statement in the generation is directly supported by at least one snippet or title from the search results.
+If all statements are supported, output {"binary_score":"yes"}, otherwise {"binary_score":"no"}.
+"""
+
 
 REWRITE_PROMPT_SYSTEM = """You a question re-writer that converts an input question to a better version that is optimized \n 
      for vectorstore retrieval. Look at the input and try to reason about the underlying semantic intent / meaning."""

@@ -3,7 +3,7 @@ from typing import Dict
 from pydantic import BaseModel, Field, ValidationError
 
 from llm.factory import get_grader_client
-from config import HALLU_PROMPT, node_log
+from config import RAG_HALLU_PROMPT, WEB_HALLU_PROMPT, node_log
 
 
 class Groundedness(BaseModel):
@@ -28,8 +28,10 @@ def _grade(state: Dict, docs_key: str) -> str:
     )
     if docs_key == "web_search":
         gen = state.get("generation", "")["summary"]
+        HALLU_PROMPT = WEB_HALLU_PROMPT
     else:
         gen = state.get("generation", "")
+        HALLU_PROMPT = RAG_HALLU_PROMPT
 
     # 2) prompt 생성
     prompt = (
