@@ -8,10 +8,9 @@ from config import ROUTER_PROMPT, node_log
 
 # Pydantic 데이터모델
 class RouteQuery(BaseModel):
-    datasource: Literal["fetch_html_tool", "fetch_coupang_tool", "parse_image_text"] = (
+    datasource: Literal["fetch_html_tool", "fetch_coupang_tool"] = (
         Field(..., description="어떤 도구로 라우팅할지 선택합니다.")
     )
-
 
 # LLM 클라이언트
 llm = get_router_client()
@@ -27,7 +26,7 @@ def route_question(state: Dict) -> str:
         + state["url"]
         + "\n\n"
         + "== 응답 형식 ==\n"
-        + "fetch_html_tool, fetch_coupang_tool, parse_image_text\n"
+        + "fetch_html_tool, fetch_coupang_tool\n"
     )
 
     data = llm.chat(prompt).strip()

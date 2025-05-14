@@ -25,16 +25,16 @@ def rag_retrieve(state: Dict) -> Dict:
     # 처음 호출이거나 retriever가 없으면 인덱스부터 생성
     if "retriever_query" not in state:
         node_log("RETRIEVE")
-        text = state["page"]
+        text = state["page_html"]
         docs = [Document(page_content=text, metadata={"source": state["url"]})]
-        if state.get("page_meta") != "":
+        if state.get("page") != "":
             page_meta = Document(
-                page_content=state["page_meta"], metadata={"source": state["url"]}
+                page_content=state["page"], metadata={"source": state["url"]}
             )
             docs.append(page_meta)
-            query = prompt_template.format(product_name=state["page_meta"])
-        else:
             query = prompt_template.format(product_name=state["page"])
+        else:
+            query = prompt_template.format(product_name=state["page_html"])
 
         state["retriever_query"] = query
 

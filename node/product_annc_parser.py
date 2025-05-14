@@ -25,12 +25,7 @@ class Topic(BaseModel):
 
 def product_annc_parser(state: Dict) -> Dict:
     node_log("PRODUCT ANNOUNCEMENT PARSER")
-    docs = state["documents"]
-    
-    context = "\n\n".join(
-        f"<document>{doc.page_content}</document>"
-        for doc in docs
-    )
+    context = state["documents"]
 
     # JsonOutputParser 설정
     parser = JsonOutputParser(pydantic_object=Topic)

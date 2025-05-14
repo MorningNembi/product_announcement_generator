@@ -114,5 +114,5 @@ def fetch_coupang_tool(state):
     result = "\n".join(pieces)
     # print(result)
     state["page"] = result
-    state["page_meta"] = ""
+
     return state
