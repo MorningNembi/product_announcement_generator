@@ -56,13 +56,12 @@ def node_log(name: str):
 RAG_Query = """"({product_name})에서 보여주는 메인 상품의 가격(판매가,정가)과 개수(수량), 무게, 특징과 같은 정보"""
 
 # html로 가져올 도메인 목록
-## coupang, gmarket, brand.naver 불가
-html_domain = ["myprotein", "11st", "gsshop"]
+html_domain = ["myprotein", "11st", "gsshop", "brand.naver"]
 ROUTER_PROMPT = f"""
 You are a simple URL router.
-If the URL’s host contains any of {html_domain}, return exactly:
+If the URL’s host absolutely contains any of {html_domain}, return exactly:
     fetch_html_tool
-Or If the URL’s host contains 'coupang', return exactly:
+Or If the URL’s host absolutely contains 'coupang', return exactly:
     fetch_coupang_tool
 Otherwise, return exactly:
     parse_image_text

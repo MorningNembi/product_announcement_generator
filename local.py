@@ -2,7 +2,7 @@ from config import RECURSION_LIMIT
 from langchain_core.runnables import RunnableConfig
 from langchain_teddynote.messages import random_uuid
 from graph import app
-from graph_output import invoke_graph, invoke_graph_clean, invoke_graph_json
+from graph_output import invoke_graph, invoke_graph_clean, invoke_graph_json_test
 import sys
 
 # traceback을 아예 안 보여주도록 설정
@@ -21,7 +21,7 @@ def local_test(inputs: dict):
     # 2) 그래프 실행
     # invoke_graph(app, inputs, config, node_names=["product_desc_gen"])
     # invoke_graph_clean(app, inputs, config, node_names=["product_desc_gen"])
-    invoke_graph_json(app, inputs, config, node_names=["product_desc_gen"])
+    invoke_graph_json_test(app, inputs, config, node_names=["product_desc_gen"])
 
 
 # 아래 코드는 스크립트로 직접 실행할 때, 기본 URL을 넣어주는 예시입니다.
@@ -35,12 +35,14 @@ if __name__ == "__main__":
         # 쿠팡 발아현미밥
         # "url": "https://www.coupang.com/vp/products/8107798642"
         # "url": "https://www.coupang.com/vp/products/7038410615?itemId=17397680231&vendorItemId=84567137606&sourceType=CATEGORY&categoryId=393660&isAddedCart=",
-        # 네이버 몬스터
-        # "url": "https://brand.naver.com/monsterenergy/products/6697660209",
+        # 브랜드.네이버 몬스터
+        "url": "https://brand.naver.com/monsterenergy/products/10366088155",
+        # 네이버 스마트스토어 몬스터
+        # "url" : "https://smartstore.naver.com/365mart1/products/7325472185"
         # GS샵
         # "url": "https://www.gsshop.com/prd/prd.gs?prdid=13866536&lseq=390802-7&gsid=ECmain-AU390802-AU390802-7&dseq=7&svcid=pc&bnclick=main-mrcm_mainMrcmA_PopularCateItemUirm&rank=7"
         # "url": "https://link.coupang.com/a/ctoiRB"
         # "url": "https://www.coupang.com/vp/products/8209850954?itemId=19358486912&vendorItemId=84100777258&sourceType=cmgoms&omsPageId=145945&omsPageUrl=145945"
-        "url": "https://www.coupang.com/vp/products/322506030?itemId=1033106163&vendorItemId=5482936102&pickType=COU_PICK&q=로블론&itemsCount=36&searchId=cee1f75a5445377&rank=0&searchRank=0&isAddedCart="
+        # "url": "https://www.coupang.com/vp/products/322506030?itemId=1033106163&vendorItemId=5482936102&pickType=COU_PICK&q=로블론&itemsCount=36&searchId=cee1f75a5445377&rank=0&searchRank=0&isAddedCart="
     }
     local_test(test_inputs)
