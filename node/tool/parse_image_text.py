@@ -172,5 +172,4 @@ def parse_image_text(state: Dict) -> Dict:
         return "OCR result is empty. please check image."
 
     state["page"] = text
-    state["page_meta"] = ""
     return state
