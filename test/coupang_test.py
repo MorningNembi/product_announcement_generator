@@ -11,12 +11,16 @@ client = TestClient(app)
 # 1) 정상 동작 케이스: (URL, 예상 lower_name의 키워드, 예상 total_price, 예상 count)
 @pytest.mark.parametrize("url, exp_keyword, exp_price, exp_count", [
     (
-        "https://brand.naver.com/monsterenergy/products/6697660209",
-        "본스터 에너지", 37170, 24
-    ),
-    (
         "https://www.coupang.com/vp/products/8107798642?itemId=23374319052&vendorItemId=90882133321",
         "햇반", 30360, 36
+    ),
+    (
+        "https://www.coupang.com/vp/products/29876?vendorItemId=85104068312",
+        "올리브유", 199000, 12
+    ),
+    (
+        "https://www.coupang.com/vp/products/6978887378?vendorItemId=85194178297",
+        "롯데샌드", 42940, 16
     )
 ])
 

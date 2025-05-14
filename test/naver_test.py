@@ -8,19 +8,15 @@ from fastapi.testclient import TestClient
 
 client = TestClient(app)
 
-# 1) 정상 동작 케이스: (URL, 예상 lower_name, 예상 total_price, 예상 count)
+# 1) 정상 동작 케이스: (URL, 예상 lower_name의 키워드, 예상 total_price, 예상 count)
 @pytest.mark.parametrize("url, exp_keyword, exp_price, exp_count", [
     (
-        "https://www.myprotein.co.kr/p/sports-nutrition/essential-omega-3/10529329/",
-        "오메가", 12600, 1
+        "https://brand.naver.com/monsterenergy/products/6697660209",
+        "몬스터", 37170, 24
     ),
     (
-        "https://www.myprotein.co.kr/p/sports-nutrition/flavour-drops/10530471/",
-        "플레이브 드롭스", 22900, 1
-    ),
-    (
-        "https://www.11st.co.kr/products/5351424764",
-        "방울토마토", 8700, 2
+        "https://brand.naver.com/nongshim/products/9744402416",
+        "김치사발면", 20680, 24
     )
 ])
 
@@ -50,7 +46,6 @@ def test_generation_success(url, exp_keyword, exp_price, exp_count):
 
 
 # def test_generation_failure(monkeypatch):
-
 #     import generate_product_announcement as gpa_module
 
 #     def fake_raise(arg):

@@ -26,8 +26,9 @@ class Topic(BaseModel):
 def product_annc_parser(state: Dict) -> Dict:
     node_log("PRODUCT ANNOUNCEMENT PARSER")
     docs = state["documents"]
+    
     context = "\n\n".join(
-        f"<document><content>{doc.page_content}</content><source>{doc.metadata['source']}</source></document>"
+        f"<document>{doc.page_content}</document>"
         for doc in docs
     )
 

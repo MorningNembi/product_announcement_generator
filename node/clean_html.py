@@ -44,14 +44,13 @@ def html_clean(state: Dict[str, Any]) -> Dict[str, Any]:
             pass
 
     # 5) 주요 JSON 키 패턴으로 가격 검색
-    # 키(name)와 값(value)를 그룹으로 캡처
-    pattern_kv = r'"([^"]*price[^"]*)"\s*:\s*([0-9]+(?:\.[0-9]+)?)'
+    pattern_kv = r'"((?=[^"]*price)(?![^"]*last)[^"]*)"\s*:\s*([0-9]+(?:\.[0-9]+)?)'
     matches_kv = re.findall(pattern_kv, raw_html, flags=re.IGNORECASE)
 
-    # 값이 0인 항목은 건너뛰고, '키: 값,' 형태로 리스트 생성
     for key, val in matches_kv:
         if int(val) != 0:
             pieces.append(f"{key}: {val}")
+
 
     # 7) pieces를 state["page_meta"]에 담아서 Return
     state["page_meta"] = "\n".join(pieces)
