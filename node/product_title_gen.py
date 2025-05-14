@@ -14,7 +14,10 @@ def product_title_gen(state: Dict) -> Dict:
     """
     node_log("GENERATE PRODUCT TITLE")
 
-    prompt = prompt_template.format(context=state["generation"])
+    prompt = prompt_template.format(
+        context=state["generation"],
+        product_lower_name=state["generation"]["product_lower_name"],
+    )
     summary = llm.chat(prompt)
     state["generation"]["title"] = summary
 

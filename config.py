@@ -56,12 +56,13 @@ def node_log(name: str):
 RAG_Query = """"({product_name})에서 보여주는 메인 상품의 가격(판매가,정가)과 개수(수량), 무게, 특징과 같은 정보"""
 
 # html로 가져올 도메인 목록
-html_domain = ["myprotein", "11st", "gsshop", "brand.naver"]
+## coupang, gmarket, brand.naver 불가
+html_domain = ["myprotein", "11st", "gsshop"]
 ROUTER_PROMPT = f"""
 You are a simple URL router.
-If the URL’s host absolutely contains any of {html_domain}, return exactly:
+If the URL’s host contains any of {html_domain}, return exactly:
     fetch_html_tool
-Or If the URL’s host absolutely contains 'coupang', return exactly:
+Or If the URL’s host contains 'coupang', return exactly:
     fetch_coupang_tool
 Otherwise, return exactly:
     parse_image_text
@@ -89,11 +90,13 @@ PRODUCT_ANNC_PARCER_PROMPT = """
 # 수정 해야함 node_log("Generate Product Description")
 PRODUCT_DESC_GEN_PROMPT = """
 당신은 특정 제품을 검색한 결과로부터 제품에 대한 특징을 추출해 홍보글을 만들어주는 전문가 AI입니다. 
-            사용자가 쉽게 이해할 수 있도록 중요한 제품 정보를 한국어로 자세하고 정확하게 요약하세요. 
-            제품의 주요 특징과 장점 등을 포함하되, 단점을 포함하지 말고, 주어진 내용에 없는 정보는 추측하지 마세요.
-            중간중간 적절한 이모지를 사용하고, 판매하기 위한 홍보글 형식으로 만들어주세요.
-            마크다운이나 HTML 태그는 사용하지 마세요.
-            제품을 검색한 결과는 다음과 같습니다.   
+사용자가 쉽게 이해할 수 있도록 다음과 같은 내용을 지켜주세요.
+- 중요한 제품 정보를 한국어로 자세하고 정확하게 요약하세요. 
+- 제품의 주요 특징과 장점 등을 포함하되, 단점을 포함하지 마세요. 
+- 주어진 내용에 없는 정보는 추측하지 마세요.
+- 문장마다 적절한 이모지를 활용하세요.
+- 판매하기 위한 홍보글 형식으로 만들어주세요.
+- 2번의 줄바꿈을 문장마다 반드시 넣어주세요.
 
 # context: {context}
 
@@ -101,16 +104,18 @@ PRODUCT_DESC_GEN_PROMPT = """
 """
 
 PRODUCT_TITLE_GEN_PROMPT = """
-당신은 특정 제품을 검색한 결과로부터 제품에 대한 특징을 추출해 홍보글의 제목을 만들어주는 전문가 AI입니다. 
-            사용자가 쉽게 이해할 수 있도록 중요한 제품 정보를 한국어로 자세하고 정확하게 요약하세요. 
-            제품의 주요 특징과 장점 등을 포함하되, 단점을 포함하지 말고, 주어진 내용에 없는 정보는 추측하지 마세요.
-            중간중간 적절한 이모지를 사용하고, 판매하기 위한 상품 홍보의 제목 형식으로 만들어주세요.
-            마크다운이나 HTML 태그는 사용하지 마세요.
-            제품에 대한 정보는 다음과 같습니다.  
+아래 조건에 맞춰 제품 홍보 제목을 생성해주세요.
 
-# context: {context}
+제품 정보: {context}
 
-# 30자 이내로 사용자의 눈에 띌 수 있는 상품 제목을 만들어 주세요. product_lower_name은 반드시 들어가야 합니다.
+조건
+1. {product_lower_name}을 반드시 포함해 최대 30자 이내로 작성
+2. 친구에게 말하듯 자연스럽고 친근한 어조로
+3. 인터넷 커뮤니터 언어체(음, 슴, ㅇㅇ, ㅋㅋ 등) 사용
+4. 각 문장에 어울리는 이모지 포함
+5. 클릭을 부르는 흥미 유발 표현 사용
+
+제목:
 """
 
 RAG_HALLU_PROMPT = """You are a grader assessing whether an LLM generation is grounded in supported by a set of retrieved facts. \n 
