@@ -7,7 +7,6 @@ from node.tool.web_search import web_search_tool
 from node.tool.fetch_coupang import fetch_coupang_tool
 
 from node.route_question import route_question
-from node.clean_html import html_clean
 from node.rag_retrieve import rag_retrieve
 
 # from node.generate import generate
@@ -45,7 +44,6 @@ workflow.add_node("fetch_coupang_tool", fetch_coupang_tool)
 workflow.add_node("parse_image_text", parse_image_text)
 workflow.add_node("web_search_tool", web_search_tool)  # 웹 서칭
 
-workflow.add_node("clean_html", html_clean)  # HTML 문서 정리
 workflow.add_node("rag_retrieve", rag_retrieve)  # RAG 문서 검색
 
 workflow.add_node("product_annc_parser", product_annc_parser)  # 상품 정보 파싱
@@ -66,8 +64,7 @@ workflow.add_conditional_edges(
     },
 )
 
-workflow.add_edge("fetch_html_tool", "clean_html")
-workflow.add_edge("clean_html", "rag_retrieve")
+workflow.add_edge("fetch_html_tool", "rag_retrieve")
 workflow.add_edge("fetch_coupang_tool", "rag_retrieve")
 workflow.add_edge("parse_image_text", "rag_retrieve")
 
